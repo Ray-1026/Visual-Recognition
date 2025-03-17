@@ -1,0 +1,9 @@
+data/
+ckpt/
+old_ckpt/
+logs/
+
+*.csv
+*.zip
+
+test.py
