@@ -1,6 +1,5 @@
 import torch
 from torch import nn
-from models.cbam import CBAM
 
 
 class ResNest50(nn.Module):

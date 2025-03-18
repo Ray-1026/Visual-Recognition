@@ -39,19 +39,12 @@ class Trainer:
         self.device = self.opt.device
         self.start_epoch = 0
 
+        # model
         self.model = model_dict[self.opt.model](
             num_classes=100).to(self.device)
 
+        # get transforms
         self.train_tfm, self.test_tfm = get_transforms()
-
-        self.test_dataset = TestingDataset(
-            self.opt.test_data_dir, self.test_tfm)
-        self.test_loader = DataLoader(
-            self.test_dataset,
-            batch_size=64,
-            shuffle=False,
-            num_workers=8,
-        )
 
         if not self.opt.eval_only:
             # self.criterion = nn.CrossEntropyLoss()
@@ -113,10 +106,21 @@ class Trainer:
                 )
             )
 
+            # create ckpt dir
             os.makedirs(self.opt.save_ckpt_dir, exist_ok=True)
 
             # record best accuracy
             self.best_acc = 0
+
+        else:   # eval only
+            self.test_dataset = TestingDataset(
+                self.opt.test_data_dir, self.test_tfm)
+            self.test_loader = DataLoader(
+                self.test_dataset,
+                batch_size=64,
+                shuffle=False,
+                num_workers=8,
+            )
 
     def print_params(self):
         # print network params
@@ -136,8 +140,7 @@ class Trainer:
             self.model.train()
             train_losses = []
 
-            i = 0
-            prefetcher = data_prefetcher(self.train_loader)
+            prefetcher = data_prefetcher(self.train_loader)  # prefetch data
             imgs, labels = prefetcher.next()
             while imgs is not None:
                 # img, label = CutMix()(imgs, labels)
@@ -145,7 +148,7 @@ class Trainer:
                 img = imgs.to(self.device)
                 label = labels.to(self.device)
 
-                with autocast(device_type="cuda"):
+                with autocast(device_type="cuda"):  # mixed precision
                     output = self.model(img)
                     loss = self.criterion(output, label)
 
@@ -226,7 +229,7 @@ class Trainer:
         submission.to_csv("prediction.csv", index=False)
 
         # zip
-        os.system("zip solution.zip prediction_.csv")
+        os.system("zip solution.zip prediction.csv")
 
     def save_weights(self, epoch):
         torch.save(
@@ -241,5 +244,3 @@ class Trainer:
     def load_weights(self):
         ckpt = torch.load(self.opt.ckpt_name)
         self.model.load_state_dict(ckpt["model"])
-        # self.optimizer.load_state_dict(ckpt["optimizer"])
-        # self.start_epoch = ckpt["epoch"]
