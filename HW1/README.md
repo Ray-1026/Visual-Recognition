@@ -16,6 +16,12 @@ conda activate hw1
 pip install -r requirements.txt
 ```
 
+## Usage
+
+```bash
+./run.sh
+```
+
 ## Performance Snapshot
 
 ![image](./assets/score.png)
