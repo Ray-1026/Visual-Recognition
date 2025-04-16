@@ -1,0 +1,8 @@
+nycu-hw2-data
+nycu-hw2-data.tar.gz
+ckpts/
+logs/
+exp.sh
+pred.json
+pred.csv
+*.zip

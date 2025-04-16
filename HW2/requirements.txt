@@ -1,0 +1,13 @@
+torch==2.5.0
+torchvision==0.20.0
+torchaudio==2.5.0
+torchmetrics
+albumentations
+numpy
+tqdm
+scikit-learn
+opencv-python
+pandas
+pycocotools
+tensorboard
+git+https://github.com/facebookresearch/fvcore.git
