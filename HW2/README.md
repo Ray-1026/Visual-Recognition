@@ -22,3 +22,5 @@ pip install -r requirements.txt
 ```
 
 ## Performance Snapshot
+
+![image](./assets/score.png)
