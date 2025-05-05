@@ -1,0 +1,6 @@
+ckpts/
+logs/
+data/
+test-results.json
+hw3-sample-code
+exp.sh
