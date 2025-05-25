@@ -1,0 +1,14 @@
+torch==2.5.0
+torchvision==0.20.0
+torchaudio==2.5.0
+numpy==1.23.5
+einops
+tqdm
+scikit-learn
+scikit-image
+opencv-python
+pandas
+lightning
+tensorboard
+pytorch-msssim
+torchmetrics
