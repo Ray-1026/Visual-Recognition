@@ -10,5 +10,5 @@ opencv-python
 pandas
 lightning
 tensorboard
-pytorch-msssim
 torchmetrics
+pytorch_wavelets

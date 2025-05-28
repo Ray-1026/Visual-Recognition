@@ -56,7 +56,7 @@ class CustomTrainDataset(Dataset):
     def __init__(self, root_dir, patch_size=128, mode="train"):
         self.root_dir = root_dir
         self.patch_size = patch_size
-        self.mode = mode
+        self.mode = mode  # discard
 
         assert mode in ["train", "val"], "Mode must be either 'train' or 'val'."
 
@@ -84,39 +84,39 @@ class CustomTrainDataset(Dataset):
         for name in os.listdir(degraded_path):
             if "rain" in name:
                 clean_name = name.replace("rain", "rain_clean")
-                degraded_rain_list.append(os.path.join(degraded_path, name))
-                clean_rain_list.append(os.path.join(clean_path, clean_name))
+                # degraded_rain_list.append(os.path.join(degraded_path, name))
+                # clean_rain_list.append(os.path.join(clean_path, clean_name))
             elif "snow" in name:
                 clean_name = name.replace("snow", "snow_clean")
-                degraded_snow_list.append(os.path.join(degraded_path, name))
-                clean_snow_list.append(os.path.join(clean_path, clean_name))
+                # degraded_snow_list.append(os.path.join(degraded_path, name))
+                # clean_snow_list.append(os.path.join(clean_path, clean_name))
             else:
                 continue
 
-            # self.degraded_list.append(os.path.join(degraded_path, name))
-            # self.clean_list.append(os.path.join(clean_path, clean_name))
+            self.degraded_list.append(os.path.join(degraded_path, name))
+            self.clean_list.append(os.path.join(clean_path, clean_name))
 
-        rain_len = len(degraded_rain_list)
-        snow_len = len(degraded_snow_list)
+        # rain_len = len(degraded_rain_list)
+        # snow_len = len(degraded_snow_list)
 
-        if self.mode == "train":
-            self.degraded_list = (
-                degraded_rain_list[: int(0.9 * rain_len)]
-                + degraded_snow_list[: int(0.9 * snow_len)]
-            )
-            self.clean_list = (
-                clean_rain_list[: int(0.9 * rain_len)]
-                + clean_snow_list[: int(0.9 * snow_len)]
-            )
-        else:  # mode == "val"
-            self.degraded_list = (
-                degraded_rain_list[int(0.9 * rain_len) :]
-                + degraded_snow_list[int(0.9 * snow_len) :]
-            )
-            self.clean_list = (
-                clean_rain_list[int(0.9 * rain_len) :]
-                + clean_snow_list[int(0.9 * snow_len) :]
-            )
+        # if self.mode == "train":
+        #     self.degraded_list = (
+        #         degraded_rain_list[: int(0.9 * rain_len)]
+        #         + degraded_snow_list[: int(0.9 * snow_len)]
+        #     )
+        #     self.clean_list = (
+        #         clean_rain_list[: int(0.9 * rain_len)]
+        #         + clean_snow_list[: int(0.9 * snow_len)]
+        #     )
+        # else:  # mode == "val"
+        #     self.degraded_list = (
+        #         degraded_rain_list[int(0.9 * rain_len) :]
+        #         + degraded_snow_list[int(0.9 * snow_len) :]
+        #     )
+        #     self.clean_list = (
+        #         clean_rain_list[int(0.9 * rain_len) :]
+        #         + clean_snow_list[int(0.9 * snow_len) :]
+        #     )
 
     def _crop_patch(self, img_1, img_2):
         H = img_1.shape[0]

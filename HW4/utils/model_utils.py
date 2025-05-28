@@ -36,23 +36,23 @@ class PromptIRModel(pl.LightningModule):
         self.log("train_ssim_loss", s_loss)
         return loss
 
-    def validation_step(self, batch, batch_idx):
-        """Validation step defines the validation loop."""
-        ([clean_name, de_id], degrad_patch, clean_patch) = batch
+    # def validation_step(self, batch, batch_idx):
+    #     """Validation step defines the validation loop."""
+    #     ([clean_name, de_id], degrad_patch, clean_patch) = batch
 
-        restored = self.net(degrad_patch)
+    #     restored = self.net(degrad_patch)
 
-        # compute psnr
-        psnr = compute_psnr(restored, clean_patch)
-        self.psnr_list.extend(psnr)
+    #     # compute psnr
+    #     psnr = compute_psnr(restored, clean_patch)
+    #     self.psnr_list.extend(psnr)
 
-        return np.mean(psnr)
+    #     return np.mean(psnr)
 
-    def on_validation_epoch_end(self):
-        """Called at the end of the validation epoch."""
-        avg_psnr = np.mean(self.psnr_list)
-        self.log("val_psnr", avg_psnr, on_epoch=True, prog_bar=True, sync_dist=True)
-        self.psnr_list.clear()
+    # def on_validation_epoch_end(self):
+    #     """Called at the end of the validation epoch."""
+    #     avg_psnr = np.mean(self.psnr_list)
+    #     self.log("val_psnr", avg_psnr, on_epoch=True, prog_bar=True, sync_dist=True)
+    #     self.psnr_list.clear()
 
     def configure_optimizers(self):
         optimizer = torch.optim.AdamW(self.parameters(), lr=2e-4)

@@ -6,7 +6,8 @@ from torchmetrics import StructuralSimilarityIndexMeasure
 class L1_SSIM_loss(nn.Module):
     def __init__(self, l1_weight=1.0, ssim_weight=0.84):
         super(L1_SSIM_loss, self).__init__()
-        self.l1_loss = nn.L1Loss()
+        # self.l1_loss = nn.L1Loss()
+        self.l1_loss = L1_Charbonnier_loss()
         self.ssim = StructuralSimilarityIndexMeasure(data_range=1.0)
 
         self.l1_weight = l1_weight

@@ -9,16 +9,7 @@ from torch.utils.data import DataLoader
 from utils.options import get_args
 from utils.dataset import CustomTestDataset
 from utils.model_utils import PromptIRModel
-
-myseed = 42
-torch.backends.cudnn.deterministic = True
-torch.backends.cudnn.benchmark = False
-random.seed(myseed)
-np.random.seed(myseed)
-torch.manual_seed(myseed)
-if torch.cuda.is_available():
-    torch.cuda.manual_seed(myseed)
-    torch.cuda.manual_seed_all(myseed)
+from utils.utils import set_seed
 
 
 def img2npz(folder_path, output_npz="pred.npz"):
@@ -48,6 +39,8 @@ def img2npz(folder_path, output_npz="pred.npz"):
 
 def main():
     opt = get_args()
+
+    set_seed(42)
 
     if not opt.test_only:
         raise ValueError("Training is not supported in this script.")
