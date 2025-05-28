@@ -11,4 +11,3 @@ pandas
 lightning
 tensorboard
 torchmetrics
-pytorch_wavelets
